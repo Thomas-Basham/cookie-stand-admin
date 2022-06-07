@@ -2,9 +2,7 @@ import Head from "next/head";
 import { useState } from "react";
 
 export default function Home() {
-  const [state, setState] = useState({
-    storeData: [],
-  });
+  const [state, setState] = useState( { storeData: []}) ;
 
   return (
     <>
@@ -18,7 +16,7 @@ export default function Home() {
   );
 
   function formHandler(e) {
-    event.preventDefault();
+    e.preventDefault();
     let newStore = {
       Location: e.target.Location.value,
       minCustomers: e.target.MinimumCustomersPerHour.value,
@@ -26,9 +24,10 @@ export default function Home() {
       avgCookies: e.target.AverageCookiesPerHour.value,
     };
     setState(newStore);
-    event.target.reset();
+    e.target.reset();
   }
 }
+
 function Header() {
   return (
     <header className="px-8 py-4 bg-emerald-500">
@@ -81,7 +80,7 @@ function CookieForm(props) {
             Id="Location"
             type="string"
             placeholder="Barcelona"
-            required="true"
+            required
           />
         </div>
       </div>
@@ -97,7 +96,7 @@ function CookieForm(props) {
             Id="MinimumCustomersPerHour"
             type="text"
             placeholder="2"
-            required="true"
+            required
           />
         </div>
         
@@ -111,7 +110,7 @@ function CookieForm(props) {
             Id="MaximumCustomersPerHour"
             type="text"
             placeholder="4"
-            required="true"
+            required
           />
         </div>
 
@@ -125,7 +124,7 @@ function CookieForm(props) {
             id="AverageCookiesPerHour"
             type="float"
             placeholder="2.5"
-            required="true"
+            required
           />
         </div>
 
