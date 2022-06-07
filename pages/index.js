@@ -1,25 +1,33 @@
 import Head from "next/head";
-import { useState } from 'react';
+import { useState } from "react";
 
-export default function Home()  {
+export default function Home() {
+  const [state, setState] = useState({
+    storeData: [],
+  });
 
-  // const []
   return (
     <>
       <Head>
         <title>Cookie Stand Admin</title>
       </Head>
       <Header />
-      <Main />
+      <Main storeData={state} formHandler={formHandler} />
       <Footer />
     </>
   );
-}
 
-function formHandler(event){
-  event.preventDefault();
-  event.target.reset()
-  
+  function formHandler(e) {
+    event.preventDefault();
+    let newStore = {
+      Location: e.target.Location.value,
+      minCustomers: e.target.MinimumCustomersPerHour.value,
+      maxCustomers: e.target.MaximumCustomersPerHour.checked,
+      avgCookies: e.target.AverageCookiesPerHour.checked,
+    };
+    setState(newStore);
+    event.target.reset();
+  }
 }
 function Header() {
   return (
@@ -29,13 +37,16 @@ function Header() {
   );
 }
 
-function Main() {
-  return(
-  <main className="flex flex-col items-center py-4 space-y-8">
-    <CookieForm onSubmit={formHandler}/>
+function Main(props) {
+  return (
+    <main className="flex flex-col items-center py-4 space-y-8">
+      <CookieForm onSubmit={props.formHandler} />
 
-<p className="">Report Table Coming Soon...</p>
-  </main>)
+      <p className="">Report Table Coming Soon...</p>
+
+      <DisplayJson storeData={props.storeData} />
+    </main>
+  );
 }
 
 function Footer() {
@@ -46,26 +57,41 @@ function Footer() {
   );
 }
 
-function CookieForm(props){
-return(
+function CookieForm(props) {
+  return (
+    <form onSubmit={props.onSubmit} className="flex w-1/2 p-2 bg-gray-600">
+      <label>Location</label>
+      <input Id="Location" className="flex-auto pl-2" placeholder="Barcelona" />
 
-  <form onSubmit={props.onSubmit} className="flex w-1/2 p-2 bg-gray-600">
+      <label>Minimum Customers Per Hour</label>
+      <input
+        Id="MinimumCustomersPerHour"
+        className="flex-auto "
+        placeholder="2"
+      />
 
-  <label >Location: </label>
-  <input className="flex-auto pl-2" placeholder="Barcelona"  />
+      <label>Maximum Customers Per Hour</label>
+      <input
+        Id="MaximumCustomersPerHour"
+        className="flex-auto "
+        placeholder="4"
+      />
 
-  <label >Minimum Customers Per Hour </label>
-  <input className="flex-auto " placeholder="2"  />
+      <label>Average Cookies Per Hour</label>
+      <input
+        Id="AverageCookiesPerHour"
+        className="flex-auto "
+        placeholder="2.5"
+      />
 
-  <label >Maximum Customers Per Hour</label>
-  <input className="flex-auto " placeholder="4"  />
-  
-  <label >Location: </label>
-  <input className="flex-auto " placeholder="2.5"  />
+      <button type="submit" className="px-4 py-2 bg-gray-400 text-gray-50">
+        Submit
+      </button>
+    </form>
+  );
+}
 
-  <button type="submit" className="px-4 py-2 bg-gray-400 text-gray-50">Submit</button>
-    
-  </form>
-
-)
+function DisplayJson(props) {
+  console.log(JSON.stringify(props.storeData));
+  return <div>{JSON.stringify(props.storeData)== '{"storeData":[]}' ? 'Enter Some Data!' :  JSON.stringify(props.storeData) }</div>;
 }
