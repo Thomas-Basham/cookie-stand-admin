@@ -3,8 +3,8 @@ import { hours } from "../data";
 import { useState } from "react";
 
 export default function Home() {
-  const [state, setState] = useState({ storeData: [] });
-  // console.log(state);
+  const [state, setState] = useState([]);
+  console.log(stateList);
 
   return (
     <>
@@ -22,7 +22,7 @@ export default function Home() {
 
   function formHandler(e) {
     e.preventDefault();
-    let newStore = {
+    let newStore =  [{
       Location: e.target.Location.value,
       minCustomers: e.target.MinimumCustomersPerHour.value,
       maxCustomers: e.target.MaximumCustomersPerHour.value,
@@ -31,10 +31,13 @@ export default function Home() {
       customersPerHour: CalcCustomers(e),
       sales: CalcCookies(e),
       totalCookies: salesTotals(),
-    };
+    }];
+    // console.log(state)
 
-    setState([newStore]);
-
+    
+    setState(state.concat(newStore));
+    
+    // setStateList(stateList.push(state))
     // CalcCookies();
     // e.target.reset();
 
@@ -89,10 +92,9 @@ function Main(props) {
     <main className="flex flex-col items-center py-4 pt-6 space-y-8">
       <CookieForm onSubmit={props.formHandler} />
 
-      <p className="text-sm text-gray-500">Report Table Coming Soon...</p>
       <ReportTable storeData={props.storeData} />
 
-      <DisplayJson storeData={props.storeData} />
+      {/* <DisplayJson storeData={props.storeData} /> */}
     </main>
   );
 }
@@ -234,7 +236,7 @@ function ReportTable(props) {
   // props.storeData
 
   if (props.storeData.length > 0) {
-    console.log(props.storeData);
+    // console.log(props.storeData);
     let sales = props.storeData.map((hour, i) => {
       return hour.sales;
     });
@@ -258,36 +260,12 @@ function ReportTable(props) {
           {storeHours}
           <thead>Totals</thead>
         </tr>
-  
+
         {storeTableData}
-  
-        {/* <p>{cookieStands}</p> */}
+
       </table>
-
-
-    )
-
-    
+    );
   }
-  // let sales = sampleData.map((hour, i) => {
-  //   return hour.sales;
-  // });
-  // let storeTableData = sampleData.map((store, i) => {
-  //   let salesHourly = sales[i].map((hour, i) => {
-  //     return <td key={i}>{hour}</td>;
-  //   });
-  //   return (
-  //     <tr key={i}>
-  //       <td>{store.Location}</td>
-  //       {salesHourly}
-  //       <td>{store.totalCookies}</td>
-  //     </tr>
-  //   );
-  // });
-  // // console.log(props.storeData);
 
-  return (
-    <p>No Cookie Stands Available</p>
-
-  );
+  return <p>No Cookie Stands Available</p>;
 }
