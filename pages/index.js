@@ -3,21 +3,8 @@ import { hours } from "../data";
 import { useState } from "react";
 
 export default function Home() {
-  const [state, setState] = useState({
-    storeData: [
-      {
-        Location: "",
-        minCustomers: "",
-        maxCustomers: "",
-        avgCookies: "",
-        hours: hours,
-        customersPerHour: [],
-        sales: [],
-        totalCookies: [],
-      },
-    ],
-  });
-  console.log(state);
+  const [state, setState] = useState({ storeData: [] });
+  // console.log(state);
 
   return (
     <>
@@ -45,38 +32,31 @@ export default function Home() {
       sales: CalcCookies(e),
       totalCookies: salesTotals(),
     };
-    
-    
 
-    
-    setState(newStore);
+    setState([newStore]);
 
     // CalcCookies();
-    e.target.reset();
+    // e.target.reset();
 
     function CalcCookies(e) {
       let salesNums = [];
-      let totalCookies = 0;
-      // CalcCustomers(newStore);
+
       for (let i = 0; i < hours.length; i++) {
         salesNums.push(
           Math.ceil(CalcCustomers(e)[i] * e.target.AverageCookiesPerHour.value)
         );
-        totalCookies += salesNums[i];
       }
       return salesNums;
     }
 
-    function salesTotals(){
+    function salesTotals() {
       let totalCookies = 0;
-      // CalcCustomers(newStore);
       for (let i = 0; i < hours.length; i++) {
-        
         totalCookies += CalcCookies(e)[i];
       }
       return totalCookies;
     }
-    
+
     function randomCustNumber(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
@@ -94,8 +74,6 @@ export default function Home() {
       return customersPerHour;
     }
   }
-
-  return <div></div>;
 }
 
 function Header() {
@@ -207,7 +185,7 @@ function CookieForm(props) {
 }
 
 function DisplayJson(props) {
-  console.log(JSON.stringify(props.storeData));
+  // console.log(JSON.stringify(props.storeData));
   return (
     <div>
       {JSON.stringify(props.storeData) == '{"storeData":[]}' ? (
@@ -223,10 +201,10 @@ function DisplayJson(props) {
 
 let sampleData = [
   {
-    Location: "Barcelona",
+    Location: "barcelona",
     minCustomers: "2",
     maxCustomers: "4",
-    avgCookies: "2.5",
+    avgCookies: "4",
     hours: [
       "6am",
       "7am",
@@ -243,6 +221,9 @@ let sampleData = [
       "6pm",
       "7pm",
     ],
+    customersPerHour: [0, 0, 0, 2, 0, 1, 2, 2, 2, 2, 0, 1, 1, 2],
+    sales: [4, 8, 8, 4, 8, 0, 8, 0, 8, 0, 4, 8, 0, 4],
+    totalCookies: 68,
   },
 ];
 
@@ -252,58 +233,61 @@ function ReportTable(props) {
   });
   // props.storeData
 
-  let storeTableData = sampleData.map((store, i) => {
-    let sales = store.hours.map((hour, i) => {
-      return <td key={i}>{hour}</td>;
+  if (props.storeData.length > 0) {
+    console.log(props.storeData);
+    let sales = props.storeData.map((hour, i) => {
+      return hour.sales;
+    });
+
+    let storeTableData = props.storeData.map((store, i) => {
+      let salesHourly = sales[i].map((hour, i) => {
+        return <td key={i}>{hour}</td>;
+      });
+      return (
+        <tr key={i}>
+          <td>{store.Location}</td>
+          {salesHourly}
+          <td>{store.totalCookies}</td>
+        </tr>
+      );
     });
     return (
-      <tr key={i}>
-        <td>{store.Location}</td>
-        {sales}
-        <td>000000</td>
-      </tr>
-    );
-  });
-  console.log(storeHours);
+      <table>
+        <tr>
+          <thead>Location</thead>
+          {storeHours}
+          <thead>Totals</thead>
+        </tr>
+  
+        {storeTableData}
+  
+        {/* <p>{cookieStands}</p> */}
+      </table>
+
+
+    )
+
+    
+  }
+  // let sales = sampleData.map((hour, i) => {
+  //   return hour.sales;
+  // });
+  // let storeTableData = sampleData.map((store, i) => {
+  //   let salesHourly = sales[i].map((hour, i) => {
+  //     return <td key={i}>{hour}</td>;
+  //   });
+  //   return (
+  //     <tr key={i}>
+  //       <td>{store.Location}</td>
+  //       {salesHourly}
+  //       <td>{store.totalCookies}</td>
+  //     </tr>
+  //   );
+  // });
+  // // console.log(props.storeData);
+
   return (
-    <table>
-      <tr>
-        <thead>Location</thead>
-        {storeHours}
-        <thead>Totals</thead>
-      </tr>
+    <p>No Cookie Stands Available</p>
 
-      {storeTableData}
-
-      {/* <p>{cookieStands}</p> */}
-    </table>
   );
 }
-
-// storeLocation = [];
-
-// function calcCustomers(props) {
-//   for (let i = 0; i < hours.length; i++) {
-//     props.storeData.customersPerHour.push(
-//       randomCustNumber(
-//         props.storeData.minCustomers,
-//         props.storeData.maxCustomers
-//       )
-//     );
-//   }
-// }
-// function randomCustNumber(min, max) {
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// }
-
-// function calcCookies(props) {
-//   calcCustomers();
-//   for (let i = 0; i < hours.length; i++) {
-//     props.storeData.cookiesPerHour.push(
-//       Math.ceil(
-//         props.storeData.customersPerHour[i] * props.storeData.avgCookiePerSale
-//       )
-//     );
-//     props.storeData.totalCookies += props.storeData.cookiesPerHour[i];
-//   }
-// }
