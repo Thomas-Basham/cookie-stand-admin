@@ -43,7 +43,7 @@ export default function Home() {
       hours: hours,
       customersPerHour: CalcCustomers(e),
       sales: CalcCookies(e),
-      totalCookies: [],
+      totalCookies: salesTotals(),
     };
     
     
@@ -67,6 +67,15 @@ export default function Home() {
       return salesNums;
     }
 
+    function salesTotals(){
+      let totalCookies = 0;
+      // CalcCustomers(newStore);
+      for (let i = 0; i < hours.length; i++) {
+        
+        totalCookies += CalcCookies(e)[i];
+      }
+      return totalCookies;
+    }
     
     function randomCustNumber(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
