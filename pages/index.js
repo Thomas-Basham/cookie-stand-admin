@@ -1,8 +1,23 @@
 import Head from "next/head";
+import { hours } from "../data";
 import { useState } from "react";
 
 export default function Home() {
-  const [state, setState] = useState( { storeData: []}) ;
+  const [state, setState] = useState({
+    storeData: [
+      {
+        Location: "",
+        minCustomers: "",
+        maxCustomers: "",
+        avgCookies: "",
+        hours: hours,
+        customersPerHour: [],
+        sales: [],
+        totalCookies: [],
+      },
+    ],
+  });
+  console.log(state);
 
   return (
     <>
@@ -12,6 +27,9 @@ export default function Home() {
       <Header />
       <Main storeData={state} formHandler={formHandler} />
       <Footer />
+
+      {/* <CalcCookies storeData={state} />
+      <CalcCustomers storeData={state} /> */}
     </>
   );
 
@@ -22,10 +40,53 @@ export default function Home() {
       minCustomers: e.target.MinimumCustomersPerHour.value,
       maxCustomers: e.target.MaximumCustomersPerHour.value,
       avgCookies: e.target.AverageCookiesPerHour.value,
+      hours: hours,
+      customersPerHour: CalcCustomers(e),
+      sales: CalcCookies(e),
+      totalCookies: [],
     };
+    
+    
+
+    
     setState(newStore);
+
+    // CalcCookies();
     e.target.reset();
+
+    function CalcCookies(e) {
+      let salesNums = [];
+      let totalCookies = 0;
+      // CalcCustomers(newStore);
+      for (let i = 0; i < hours.length; i++) {
+        salesNums.push(
+          Math.ceil(CalcCustomers(e)[i] * e.target.AverageCookiesPerHour.value)
+        );
+        totalCookies += salesNums[i];
+      }
+      return salesNums;
+    }
+
+    
+    function randomCustNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    function CalcCustomers(e) {
+      let customersPerHour = [];
+      for (let i = 0; i < hours.length; i++) {
+        customersPerHour.push(
+          randomCustNumber(
+            e.target.MinimumCustomersPerHour.value,
+            e.target.MaximumCustomersPerHour.value
+          )
+        );
+      }
+      return customersPerHour;
+    }
   }
+
+  return <div></div>;
 }
 
 function Header() {
@@ -42,6 +103,7 @@ function Main(props) {
       <CookieForm onSubmit={props.formHandler} />
 
       <p className="text-sm text-gray-500">Report Table Coming Soon...</p>
+      <ReportTable storeData={props.storeData} />
 
       <DisplayJson storeData={props.storeData} />
     </main>
@@ -58,16 +120,13 @@ function Footer() {
 
 function CookieForm(props) {
   return (
-    
     <form
       onSubmit={props.onSubmit}
       className="w-full max-w-screen-lg px-5 py-3 rounded bg-emerald-300 "
     >
       <h1>Create Cookie Stand</h1>
 
-      
       <div className="flex flex-wrap ">
-        
         <div className="w-full px-3">
           <label
             className="text-xs font-bold tracking-wide text-gray-700 "
@@ -77,7 +136,7 @@ function CookieForm(props) {
           </label>
           <input
             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
-            Id="Location"
+            id="Location"
             type="string"
             placeholder="Barcelona"
             required
@@ -85,7 +144,6 @@ function CookieForm(props) {
         </div>
       </div>
 
-      
       <div className="flex flex-wrap w-full mb-3">
         <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
@@ -93,28 +151,26 @@ function CookieForm(props) {
           </label>
           <input
             className="w-full px-4 py-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
-            Id="MinimumCustomersPerHour"
+            id="MinimumCustomersPerHour"
             type="text"
             placeholder="2"
             required
           />
         </div>
-        
-        
+
         <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
             Maximum Customers Per Hour
           </label>
           <input
             className="w-full px-4 py-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
-            Id="MaximumCustomersPerHour"
+            id="MaximumCustomersPerHour"
             type="text"
             placeholder="4"
             required
           />
         </div>
 
-        
         <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
             Average Customers Per Sale
@@ -128,7 +184,6 @@ function CookieForm(props) {
           />
         </div>
 
-        
         <div className="w-full h-100 md:w-1/4 ">
           <button
             type="submit"
@@ -137,12 +192,7 @@ function CookieForm(props) {
             Create
           </button>
         </div>
-        
-        
       </div>
-
-
-      
     </form>
   );
 }
@@ -161,3 +211,90 @@ function DisplayJson(props) {
     </div>
   );
 }
+
+let sampleData = [
+  {
+    Location: "Barcelona",
+    minCustomers: "2",
+    maxCustomers: "4",
+    avgCookies: "2.5",
+    hours: [
+      "6am",
+      "7am",
+      "8am",
+      "9am",
+      "10am",
+      "11am",
+      "12pm",
+      "1pm",
+      "2pm",
+      "3pm",
+      "4pm",
+      "5pm",
+      "6pm",
+      "7pm",
+    ],
+  },
+];
+
+function ReportTable(props) {
+  let storeHours = hours.map((hour, i) => {
+    return <th key={i}>{hour}</th>;
+  });
+  // props.storeData
+
+  let storeTableData = sampleData.map((store, i) => {
+    let sales = store.hours.map((hour, i) => {
+      return <td key={i}>{hour}</td>;
+    });
+    return (
+      <tr key={i}>
+        <td>{store.Location}</td>
+        {sales}
+        <td>000000</td>
+      </tr>
+    );
+  });
+  console.log(storeHours);
+  return (
+    <table>
+      <tr>
+        <thead>Location</thead>
+        {storeHours}
+        <thead>Totals</thead>
+      </tr>
+
+      {storeTableData}
+
+      {/* <p>{cookieStands}</p> */}
+    </table>
+  );
+}
+
+// storeLocation = [];
+
+// function calcCustomers(props) {
+//   for (let i = 0; i < hours.length; i++) {
+//     props.storeData.customersPerHour.push(
+//       randomCustNumber(
+//         props.storeData.minCustomers,
+//         props.storeData.maxCustomers
+//       )
+//     );
+//   }
+// }
+// function randomCustNumber(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
+
+// function calcCookies(props) {
+//   calcCustomers();
+//   for (let i = 0; i < hours.length; i++) {
+//     props.storeData.cookiesPerHour.push(
+//       Math.ceil(
+//         props.storeData.customersPerHour[i] * props.storeData.avgCookiePerSale
+//       )
+//     );
+//     props.storeData.totalCookies += props.storeData.cookiesPerHour[i];
+//   }
+// }
