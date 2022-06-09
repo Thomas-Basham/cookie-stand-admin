@@ -4,8 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [state, setState] = useState([]);
-  console.log(stateList);
-
+  console.log(state);
   return (
     <>
       <Head>
@@ -22,21 +21,22 @@ export default function Home() {
 
   function formHandler(e) {
     e.preventDefault();
-    let newStore =  [{
-      Location: e.target.Location.value,
-      minCustomers: e.target.MinimumCustomersPerHour.value,
-      maxCustomers: e.target.MaximumCustomersPerHour.value,
-      avgCookies: e.target.AverageCookiesPerHour.value,
-      hours: hours,
-      customersPerHour: CalcCustomers(e),
-      sales: CalcCookies(e),
-      totalCookies: salesTotals(),
-    }];
+    let newStore = [
+      {
+        Location: e.target.Location.value,
+        minCustomers: e.target.MinimumCustomersPerHour.value,
+        maxCustomers: e.target.MaximumCustomersPerHour.value,
+        avgCookies: e.target.AverageCookiesPerHour.value,
+        hours: hours,
+        customersPerHour: CalcCustomers(e),
+        sales: CalcCookies(e),
+        totalCookies: salesTotals(),
+      },
+    ];
     // console.log(state)
 
-    
     setState(state.concat(newStore));
-    
+
     // setStateList(stateList.push(state))
     // CalcCookies();
     // e.target.reset();
@@ -162,7 +162,7 @@ function CookieForm(props) {
 
         <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
-            Average Customers Per Sale
+            Average Cookies Per Sale
           </label>
           <input
             className="w-full px-4 py-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
@@ -238,13 +238,16 @@ function ReportTable(props) {
   if (props.storeData.length > 0) {
     // console.log(props.storeData);
     let sales = props.storeData.map((hour, i) => {
+      // sales = [[4, 8, 8, 4, 8,], [4, 8, 8, 4, 8,], [4, 8, 8, 4, 8,], .....]
       return hour.sales;
     });
+    console.log(sales);
 
     let storeTableData = props.storeData.map((store, i) => {
       let salesHourly = sales[i].map((hour, i) => {
         return <td key={i}>{hour}</td>;
       });
+
       return (
         <tr key={i}>
           <td>{store.Location}</td>
@@ -253,6 +256,22 @@ function ReportTable(props) {
         </tr>
       );
     });
+
+    // let footerData = props.storeData.map(() => {
+    let result = sales.reduce(function (r, a) {
+        a.forEach(function (b, i) {
+          r[i] = (r[i] || 0) + b;
+        });
+        return r;
+      }, []);
+      let totalRow = result.map((hour, i) => {
+        return <td key={i}>{hour}</td>;
+      });
+      console.log("result", result);
+
+    //   return totalRow;
+    // });
+      
     return (
       <table>
         <tr>
@@ -260,9 +279,12 @@ function ReportTable(props) {
           {storeHours}
           <thead>Totals</thead>
         </tr>
-
         {storeTableData}
-
+        <tr>
+          <tfoot>Totals</tfoot>
+          {totalRow}
+          {/* {footerData} */}
+        </tr>
       </table>
     );
   }
