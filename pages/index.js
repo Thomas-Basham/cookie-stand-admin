@@ -257,7 +257,8 @@ function ReportTable(props) {
       );
     });
 
-    // let footerData = props.storeData.map(() => {
+    
+    // https://stackoverflow.com/questions/36305268/get-sum-of-array-columns-in-javascript
     let result = sales.reduce(function (r, a) {
         a.forEach(function (b, i) {
           r[i] = (r[i] || 0) + b;
@@ -269,9 +270,16 @@ function ReportTable(props) {
       });
       console.log("result", result);
 
-    //   return totalRow;
-    // });
+      let grandGrandTotal = props.storeData.map((total, i) => {
+        return total.totalCookies
+      })
       
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+      let muchoGrandTotal = grandGrandTotal.reduce(
+        (previousValue, currentValue) => previousValue + currentValue,
+        0
+        
+      )      
     return (
       <table>
         <tr>
@@ -283,7 +291,7 @@ function ReportTable(props) {
         <tr>
           <tfoot>Totals</tfoot>
           {totalRow}
-          {/* {footerData} */}
+          <td>{muchoGrandTotal}</td>
         </tr>
       </table>
     );
