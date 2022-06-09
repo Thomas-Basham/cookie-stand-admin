@@ -112,7 +112,7 @@ function CookieForm(props) {
       onSubmit={props.onSubmit}
       className="w-full max-w-screen-lg px-5 py-3 rounded bg-emerald-300 "
     >
-      <h1>Create Cookie Stand</h1>
+      <h1 className="text-center text-gray-900">Create Cookie Stand</h1>
 
       <div className="flex flex-wrap ">
         <div className="w-full px-3">
@@ -132,8 +132,8 @@ function CookieForm(props) {
         </div>
       </div>
 
-      <div className="flex flex-wrap w-full mb-3">
-        <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
+      <div className="flex flex-wrap mb-3 ">
+        <div className="w-full px-3 py-3 mb-6 border-4 rounded md:w-1/4 md:mb-0 bg-emerald-200 border-emerald-300">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
             Minimum Customers Per Hour
           </label>
@@ -146,7 +146,7 @@ function CookieForm(props) {
           />
         </div>
 
-        <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
+        <div className="w-full px-3 py-3 mb-6 border-4 rounded border-emerald-300 md:w-1/4 md:mb-0 bg-emerald-200">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
             Maximum Customers Per Hour
           </label>
@@ -159,7 +159,7 @@ function CookieForm(props) {
           />
         </div>
 
-        <div className="w-full px-3 mb-6 md:w-1/4 md:mb-0">
+        <div className="w-full px-3 py-3 mb-6 border-4 border-r-8 rounded border-emerald-300 md:w-1/4 md:mb-0 bg-emerald-200">
           <label className="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700">
             Average Cookies Per Sale
           </label>
@@ -172,7 +172,7 @@ function CookieForm(props) {
           />
         </div>
 
-        <div className="w-full h-100 md:w-1/4 ">
+        <div className="w-full border-8 border-emerald-300 h-100 md:w-1/4">
           <button
             type="submit"
             className="block w-full h-full text-gray-700 rounded bg-emerald-500 "
