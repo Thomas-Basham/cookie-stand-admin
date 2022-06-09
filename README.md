@@ -8,6 +8,5 @@
 
 [Tailwind](https://v1.tailwindcss.com/docs/installation)
 
-
 # Credit
 Eden helped me figure out the alternating colors

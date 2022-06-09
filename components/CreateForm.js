@@ -11,13 +11,13 @@ export default function CookieForm(props) {
         <div className="w-full px-3">
           <label
             className="text-xs font-bold tracking-wide text-gray-700 "
-            htmlFor="Location"
+            htmlFor="location"
           >
             Location
           </label>
           <input
             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
-            id="Location"
+            id="location"
             type="string"
             placeholder="Barcelona"
             required
@@ -32,7 +32,7 @@ export default function CookieForm(props) {
           </label>
           <input
             className="w-full px-4 py-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
-            id="MinimumCustomersPerHour"
+            id="minimum_customers_per_hour"
             type="text"
             placeholder="2"
             required
@@ -45,7 +45,7 @@ export default function CookieForm(props) {
           </label>
           <input
             className="w-full px-4 py-3 leading-tight text-gray-700 placeholder-black border border-gray-200 rounded appearance-none bg-white-200 focus:outline-none focus:bg-white focus:border-gray-500"
-            id="MaximumCustomersPerHour"
+            id="maximum_customers_per_hour"
             type="text"
             placeholder="4"
             required

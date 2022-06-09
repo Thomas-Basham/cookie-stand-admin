@@ -10,7 +10,7 @@ export default function ReportTable(props) {
     // console.log(props.storeData);
     let sales = props.storeData.map((hour, i) => {
       // sales = [[4, 8, 8, 4, 8,], [4, 8, 8, 4, 8,], [4, 8, 8, 4, 8,], .....]
-      return hour.sales;
+      return hour.hourly_sales;
     });
     console.log(sales);
 
