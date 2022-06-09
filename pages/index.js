@@ -91,7 +91,6 @@ function Main(props) {
   return (
     <main className="flex flex-col items-center py-4 pt-6 space-y-8">
       <CookieForm onSubmit={props.formHandler} />
-
       <ReportTable storeData={props.storeData} />
 
       {/* <DisplayJson storeData={props.storeData} /> */}
@@ -249,50 +248,51 @@ function ReportTable(props) {
       });
 
       return (
-        <tr key={i}>
-          <td>{store.Location}</td>
+        <tr key={i} className="even:bg-emerald-300 odd:bg-emerald-400">
+          <td className="pl-4 pr-2 text-left ">{store.Location}</td>
           {salesHourly}
           <td>{store.totalCookies}</td>
         </tr>
       );
     });
 
-    
     // https://stackoverflow.com/questions/36305268/get-sum-of-array-columns-in-javascript
     let result = sales.reduce(function (r, a) {
-        a.forEach(function (b, i) {
-          r[i] = (r[i] || 0) + b;
-        });
-        return r;
-      }, []);
-      let totalRow = result.map((hour, i) => {
-        return <td key={i}>{hour}</td>;
+      a.forEach(function (b, i) {
+        r[i] = (r[i] || 0) + b;
       });
-      console.log("result", result);
+      return r;
+    }, []);
+    let totalRow = result.map((hour, i) => {
+      return <td key={i}>{hour}</td>;
+    });
+    console.log("result", result);
 
-      let grandGrandTotal = props.storeData.map((total, i) => {
-        return total.totalCookies
-      })
-      
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
-      let muchoGrandTotal = grandGrandTotal.reduce(
-        (previousValue, currentValue) => previousValue + currentValue,
-        0
-        
-      )      
-    return (
-      <table>
-        <tr>
-          <thead>Location</thead>
+    let grandGrandTotal = props.storeData.map((total, i) => {
+      return total.totalCookies;
+    });
+
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+    let muchoGrandTotal = grandGrandTotal.reduce(
+      (previousValue, currentValue) => previousValue + currentValue,
+      0
+    );
+    return (       
+                         // Big thanks to Eden Brekke for this one
+      <table className="w-full max-w-screen-lg rounded table-fit bg-emerald-500">
+        <thead >
+          <th >Location</th>
           {storeHours}
-          <thead>Totals</thead>
-        </tr>
-        {storeTableData}
-        <tr>
-          <tfoot>Totals</tfoot>
+          <th>Totals</th>
+        </thead>
+
+        <tbody className="border-2 border-gray-300 ">{storeTableData}</tbody>
+
+        <tfoot className="font-bold">
+          <td>Totals</td>
           {totalRow}
           <td>{muchoGrandTotal}</td>
-        </tr>
+        </tfoot>
       </table>
     );
   }
