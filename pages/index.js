@@ -13,58 +13,60 @@ export default function Home() {
   const [state, setState] = useState([]);
   const { user, login } = useAuth();
   const { resources, deleteResource } = useResource();
-  // const { user } = useAuth();
 
   const { createResource } = useResource();
-  // const [apiState, setAPIState] = useState([]);
-  console.log(resources)
+  // console.log(resources)
   return (
     <>
       <Index />
-      <Header />
-      <Main
-        resources={resources || []}
-        storeData={state}
-        deleteResource={deleteResource}
-        formHandler={formHandler}
-      />
-      <Footer />
-      <LoginForm login={login} />
+      {user ? (
+        <>
+          <Header user={user} />
+          <Main
+            resources={resources || []}
+            storeData={state}
+            deleteResource={deleteResource}
+            formHandler={formHandler}
+          />
+          <Footer resources={resources} />
+        </>
+      ) : (
+        <LoginForm login={login} />
+      )}
     </>
   );
 
   function formHandler(e) {
     e.preventDefault();
-    let newStore = 
-      {
-        location: e.target.location.value,
-        hourly_sales: CalcCookies(e),
-        minimum_customers_per_hour: e.target.minimum_customers_per_hour.value,
-        maximum_customers_per_hour: e.target.maximum_customers_per_hour.value,
-        average_cookies_per_sale: e.target.AverageCookiesPerHour.value,
-        owner: user.id,
-        hours: hours,
-        customersPerHour: CalcCustomers(e),
-        totalCookies: salesTotals(),
-      }
-    
+    let newStore = {
+      location: e.target.location.value,
+      hourly_sales: CalcCookies(e),
+      minimum_customers_per_hour: e.target.minimum_customers_per_hour.value,
+      maximum_customers_per_hour: e.target.maximum_customers_per_hour.value,
+      average_cookies_per_sale: e.target.AverageCookiesPerHour.value,
+      owner: user.id,
+      hours: hours,
+      customersPerHour: CalcCustomers(e),
+      totalCookies: salesTotals(),
+    };
+
     // console.log(state)
-    
+
     setState(state.concat(newStore));
-    
+
     function CalcCookies(e) {
       let salesNums = [];
-      
+
       for (let i = 0; i < hours.length; i++) {
         salesNums.push(
           Math.ceil(CalcCustomers(e)[i] * e.target.AverageCookiesPerHour.value)
-          );
-        }
-        return salesNums;
+        );
       }
-      
-      function salesTotals() {
-      console.log('sstatate', state)
+      return salesNums;
+    }
+
+    function salesTotals() {
+      // console.log('sstatate', state)
       let totalCookies = 0;
       for (let i = 0; i < hours.length; i++) {
         totalCookies += CalcCookies(e)[i];
@@ -89,25 +91,34 @@ export default function Home() {
       return customersPerHour;
     }
 
-
     createResource(newStore);
   }
 
-  function LoginForm({ onLogin }) {
+  function LoginForm({ login }) {
     async function handleSubmit(event) {
       event.preventDefault();
       login(event.target.username.value, event.target.password.value);
     }
 
     return (
-      <form onSubmit={handleSubmit}>
-        <fieldset autoComplete="off">
-          <legend>Log In</legend>
-          <label htmlFor="username">Username</label>
-          <input name="username" />
-          <label htmlFor="password">Password</label>
-          <input type="password" name="password" />
-          <button>Log In</button>
+      <form
+        onSubmit={handleSubmit}
+        className="relative justify-center w-full h-full max-w-screen-xl px-5 py-3 ml-auto mr-auto text-center border-4 border-solid rounded-md top-56 bg-emerald-200 border-emerald-300"
+      >
+        <fieldset autoComplete="off" className="flex flex-col p-4">
+          <label htmlFor="username" className="py-4">
+            USERNAME
+          </label>
+          <input className="border border-2 border-emerald-200" id="username" />
+          <label htmlFor="password" className="py-4">
+            PASSWORD
+          </label>
+          <input
+            className="border border-2 border-emerald-200"
+            type="password"
+            id="password"
+          />
+          <button className="py-4 mt-4 rounded p bg-emerald-400">LOG IN</button>
         </fieldset>
       </form>
     );
