@@ -22,6 +22,7 @@ export default function Home() {
       {user ? (
         <>
           <Header user={user} />
+          
           <Main
             resources={resources || []}
             storeData={state}
