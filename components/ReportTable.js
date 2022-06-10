@@ -6,22 +6,25 @@ export default function ReportTable(props) {
   });
   // props.storeData
 
-  if (props.storeData.length > 0) {
-    // console.log(props.storeData);
-    let sales = props.storeData.map((hour, i) => {
+  if (props.resources.length > 0) {
+    let sales = props.resources.map((hour, i) => {
       // sales = [[4, 8, 8, 4, 8,], [4, 8, 8, 4, 8,], [4, 8, 8, 4, 8,], .....]
       return hour.hourly_sales;
     });
-    console.log(sales);
+    // console.log(sales);
 
-    let storeTableData = props.storeData.map((store, i) => {
+    let storeTableData = props.resources.map((store, i) => {
       let salesHourly = sales[i].map((hour, i) => {
         return <td key={i}>{hour}</td>;
       });
 
+      console.log(store.id)
       return (
         <tr key={i} className="even:bg-emerald-300 odd:bg-emerald-400">
-          <td className="pl-4 pr-2 text-left ">{store.Location}</td>
+          <td className="pl-4 pr-2 text-left ">
+            {store.location}
+            <DeleteButton deleteResource={props.deleteResource} id={store.id}  />{" "}
+          </td>
           {salesHourly}
           <td>{store.totalCookies}</td>
         </tr>
@@ -38,9 +41,9 @@ export default function ReportTable(props) {
     let totalRow = result.map((hour, i) => {
       return <td key={i}>{hour}</td>;
     });
-    console.log("result", result);
+    // console.log("result", result);
 
-    let grandGrandTotal = props.storeData.map((total, i) => {
+    let grandGrandTotal = props.resources.map((total, i) => {
       return total.totalCookies;
     });
 
@@ -70,4 +73,12 @@ export default function ReportTable(props) {
   }
 
   return <p>No Cookie Stands Available</p>;
+  function DeleteButton(props){
+    function clickHandler() {
+      props.deleteResource(props.id);
+    }
+    
+  
+    return <button onClick={clickHandler}>[x]</button>
+  }
 }

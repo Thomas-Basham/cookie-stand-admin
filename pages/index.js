@@ -17,8 +17,7 @@ export default function Home() {
 
   const { createResource } = useResource();
   // const [apiState, setAPIState] = useState([]);
-  // console.log(state);
-  console.log(user);
+  console.log(resources)
   return (
     <>
       <Index />
@@ -49,19 +48,6 @@ export default function Home() {
         totalCookies: salesTotals(),
       }
     
-
-    let cookieJson = [
-      {
-        id: 1,
-        location: "blah",
-        description: "ppoooo",
-        hourly_sales: null,
-        minimum_customers_per_hour: 3,
-        maximum_customers_per_hour: 3,
-        average_cookies_per_sale: 4.0,
-        owner: 1,
-      },
-    ];
     // console.log(state)
     
     setState(state.concat(newStore));
