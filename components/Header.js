@@ -8,11 +8,19 @@ export default function Header(props) {
           Cookie Stand Admin
         </h1>
         <div className="flex w-1/2 space-x-3 text-right">
-        <p className="px-3 pt-1 bg-white rounded-md opacity-60 h-7">{user.username}USERNAME</p>
-        <button className="px-2 pt-1 rounded-md h-7 bg-emerald-500" onClick={logout}>Log out</button>
-        <p className="px-3 pt-1 bg-white rounded-md opacity-80 h-7">Overview</p>
+          <p className="px-3 pt-1 bg-white rounded-md opacity-60 h-7">
+            {user.username}USERNAME
+          </p>
+          <button
+            className="px-2 pt-1 rounded-md h-7 bg-emerald-500"
+            onClick={logout}
+          >
+            Log out
+          </button>
+          <p className="px-3 pt-1 bg-white rounded-md opacity-80 h-7">
+            Overview
+          </p>
         </div>
-     
       </header>
     );
   } else {

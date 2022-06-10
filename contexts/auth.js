@@ -37,7 +37,7 @@ export function AuthProvider(props) {
     };
 
     setState((prevState) => ({ ...prevState, ...newState }));
-    console.log(newState);
+    // console.log(newState);
   }
 
   function logout() {

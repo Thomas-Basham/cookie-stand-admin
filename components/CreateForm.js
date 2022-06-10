@@ -8,7 +8,6 @@ export default function CookieForm(props) {
       {/* <h1 className="text-center text-gray-900">Create Cookie Stand</h1> */}
 
       <div className="flex flex-wrap ">
-        
         <div className="w-3/4 px-3 text-center">
           <label
             className="text-xs font-bold tracking-wide text-gray-700 "
@@ -24,7 +23,7 @@ export default function CookieForm(props) {
             required
           />
         </div>
-        
+
         <div className="flex items-center justify-center w-full h-100 md:w-1/4">
           <button
             type="submit"
