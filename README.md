@@ -2,7 +2,7 @@
 
 **Author:** Thomas Basham
 
-## [Deployed Link](https://cookie-stand-admin-thomas-basham.netlify.app)
+## [Deployed Link](https://cookie-stand-admin-thomas-basham.vercel.app)
 
 ## [Deployed API](https://cookie-stand-api-tb.herokuapp.com/)
 
@@ -13,4 +13,4 @@
 [Tailwind](https://v1.tailwindcss.com/docs/installation)
 
 # Credit
-Eden helped me figure out the alternating colors
+Eden and I worked together through this entire Lab
