@@ -2,6 +2,7 @@ import { useAuth } from "../contexts/auth";
 export default function Header(props) {
   const { user, logout } = useAuth();
   if (props.user) {
+    // TODO: Add username
     return (
       <header className="flex py-4 display bg-emerald-400">
         <h1 className="w-1/2 text-3xl font-bold text-gray-700 ">
@@ -9,6 +10,7 @@ export default function Header(props) {
         </h1>
         <div className="flex w-1/2 space-x-3 text-right">
           <p className="px-3 pt-1 bg-white rounded-md opacity-60 h-7">
+            
             {user.username}USERNAME
           </p>
           <button
